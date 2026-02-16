@@ -27,7 +27,7 @@ class Task(models.Model):
         return datetime.now() >= self.due_date
     
     class Meta:
-        ordering = ['due_date']
+        ordering = ['-due_date']
         unique_together = ['due_date', 'name']
         verbose_name = 'task'
         verbose_name_plural = 'tasks'
