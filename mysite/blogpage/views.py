@@ -3,7 +3,13 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .models import Task, TaskGroup
 from .forms import TaskForm
+from django.views.generic import DetailView
+from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
+
+tasks = []
 # Create your views here.
 def index (request):
     return HttpResponse("Hello, world. You're home.")
@@ -30,6 +36,13 @@ def task_list (request):
         "tasks": tasks,
     })
 
+@login_required
+def task_detail (request, id):
+    task= Task.objects.get(pk=id)
+    return render (request, "blogpage/task_detail.html", {
+        "task": task,
+    })
+
 class TaskAddView(FormView):
     template_name = 'blogpage/task_add.html'
     form_class = TaskForm
@@ -39,3 +52,11 @@ class TaskAddView(FormView):
         tasks.append ( (form.cleaned_data["task_name"], 
                         form.cleaned_data["task_date"]) )
         return super().form_valid(form)
+
+class TaskListView(ListView):
+    model = Task
+    template_name = 'blogpage/task_list.html'
+
+class TaskDetailView(LoginRequiredMixin, DetailView):
+    model = Task
+    template_name = 'blogpage/task_detail.html'

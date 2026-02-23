@@ -4,8 +4,8 @@
 {% block content %}
 
     <ul>
-    {% for task in tasks %}
-        <li>{{ task.name }} - {{ task.due_date|date:"Y-m-d" }}</li>  
+    {% for task in task_list %}
+        <li><a href="{{ task.get_absolute_url }}">{{ task.name }} - {{ task.due_date|date:"Y-m-d" }}</a></li>  
     {% endfor %}
     </ul>
 
@@ -13,3 +13,4 @@
 
 
 
+    

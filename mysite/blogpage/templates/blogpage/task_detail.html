@@ -1,0 +1,13 @@
+{% extends 'blogpage/base_blogpage.html' %}
+{% load static %}
+
+{% block content %}
+
+    <h3> {{task.taskgroup.name}}</h3>
+    <h4> {{task.name}}</h4>
+    <p> Due on {{ task.due_date|date:"Y-m-d" }}</p> 
+
+{% endblock %}
+
+
+
