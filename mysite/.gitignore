@@ -6,4 +6,4 @@ db.sqlite
 __pycache__/
 env/
 myenv/
-
+.DS_Store
