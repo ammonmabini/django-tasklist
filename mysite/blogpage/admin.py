@@ -8,35 +8,32 @@ class ProfileInline(admin.StackedInline):
     can_delete = False
 
 class UserAdmin(BaseUserAdmin):
-        inlines = [ProfileInline, ]
+    inlines = [ProfileInline]
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
-
-class TaskGroupAdmin(admin.ModelAdmin):
-    model = TaskGroup
-
-class TaskAdmin(admin.ModelAdmin):
-    model = Task
-    search_fields = ('name', )
-    list_display =('name', 'due_date', )
-    list_filter = ('due_date', )
 
 class TaskInLine(admin.TabularInline):
     model = Task
 
 class TaskGroupAdmin(admin.ModelAdmin):
-    inlines = [TaskInLine,]
+    model = TaskGroup
+    inlines = [TaskInLine]
 
 class TaskAdmin(admin.ModelAdmin):
     model = Task
-    
+    search_fields = ('name',)
+    list_display = ('name', 'due_date', 'taskgroup', 'profile')
+    list_filter = ('due_date', 'taskgroup')
+
     fieldsets = [
-        ('Details',{
+        ('Details', {
             'fields': [
-                ('name', 'due_date'), 'taskgroup',
-                'profile'
-        ]
+                ('name', 'due_date'),
+                'taskgroup',
+                'profile',
+                'task_image',
+            ]
         }),
     ]
 

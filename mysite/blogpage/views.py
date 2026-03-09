@@ -52,7 +52,7 @@ def task_detail (request, id):
         "task": task,
     })
 
-class TaskListView(ListView):
+class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'blogpage/task_list.html'
 
@@ -62,7 +62,10 @@ class TaskListView(ListView):
         return context
     
     def get(self, request, *args, **kwargs):
-        pass
+        self.object_list = self.get_queryset(**kwargs)
+        context = self.get_context_data(**kwargs)
+        context['form'] = TaskForm()
+        return self.render_to_response(context)
     
     def post(self, request, *args, **kwargs):
         form = TaskForm(request.POST) #handles data sent by user
@@ -84,12 +87,12 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = 'blogpage/task_detail.html'
 
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
 
     def form_valid(self, form):
-        profile = Profile.objects.get(user=self.request.user)
+        form.instance.profile = Profile.objects.get(user=self.request.user)
         return super().form_valid(form)
 
 class TaskUpdateView(LoginRequiredMixin, UpdateView):
