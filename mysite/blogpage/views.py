@@ -56,10 +56,10 @@ class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'blogpage/task_list.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['task_list'] = Task.objects.filter(profile__user=self.request.user)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['task_list'] = Task.objects.filter(profile__user=self.request.user)
+    #     return context
     
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset(**kwargs)
